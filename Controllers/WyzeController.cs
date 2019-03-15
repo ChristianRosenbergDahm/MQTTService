@@ -30,39 +30,45 @@ namespace WyzeCamApi.Controllers
         [HttpGet("{cameraID}/{command}/{apikey}")]
         public ActionResult<IEnumerable<string>> Get(String cameraID, String command, String apikey)
         {
+
             Console.WriteLine(" -------- GET API hit -------");
             Console.WriteLine(" ------ CameraID: " + cameraID + " command: " + command + " ApiKey: " + apikey + " ------");
-            
+            string returnString = string.Empty;
+
             //Check api key
-            if (!ValidateApiKey(apikey)){
+            if (!ValidateApiKey(apikey))
+            {
                 Console.WriteLine("Api key is not correct");
                 return new string[] { "API key not valid", "" };
             }
 
-            var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result ;
-
-            var sess = mqttClient.ConnectAsync().Result;
-            var camName = "wyze_"+cameraID.ToString();
-
-            string rcvTopic = "wyze/"+ camName + "/receive";
-            string sendTopic = "wyze/"+ camName + "/command";
-
-            mqttClient.SubscribeAsync(rcvTopic, MqttQualityOfService.ExactlyOnce);
-            var sendData = String.Empty;
-
-            Task.Run(() =>
+            using (var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result)
             {
+                // var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result ;
+
+                var sess = mqttClient.ConnectAsync().Result;
+                var camName = "wyze_" + cameraID.ToString();
+
+                string rcvTopic = "wyze/" + camName + "/receive";
+                string sendTopic = "wyze/" + camName + "/command";
+
+                mqttClient.SubscribeAsync(rcvTopic, MqttQualityOfService.ExactlyOnce);
+                var sendData = String.Empty;
+
+                Task.Run(() =>
+                {
                     var line = command;
                     var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line));
-                    // var line = Regex.Unescape("{'command':" + command + "'}");
-                    // var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line.Replace("'","\"").Remove(0,1)));
-                    sendData = data.ToString();
+                // var line = Regex.Unescape("{'command':" + command + "'}");
+                // var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line.Replace("'","\"").Remove(0,1)));
+                sendData = data.ToString();
                     mqttClient.PublishAsync(new MqttApplicationMessage(sendTopic, data), MqttQualityOfService.ExactlyOnce).Wait();
-            });
+                });
+                returnString = "------- MQTT: SENDTOPIC: " + sendTopic + " --------";
+            }
+        
 
-            Console.WriteLine(" ------- MQTT: SENDTOPIC: " + sendTopic);
-            
-            return new string[] { "------- MQTT: SENDTOPIC: " + sendTopic + " --------", "" };
+            return new string[] { returnString, "" };
         }
 
         // GET api/values/5
@@ -90,8 +96,10 @@ namespace WyzeCamApi.Controllers
         {
         }
 
-        private bool ValidateApiKey(string apikey){
-            if(apikey == _apiKey) {
+        private bool ValidateApiKey(string apikey)
+        {
+            if (apikey == _apiKey)
+            {
                 return true;
             }
             else return false;
