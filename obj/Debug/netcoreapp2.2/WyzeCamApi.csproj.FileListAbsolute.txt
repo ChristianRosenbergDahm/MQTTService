@@ -1,0 +1,14 @@
+/Users/dahm/source/MQTTService/bin/Debug/netcoreapp2.2/WyzeCamApi.deps.json
+/Users/dahm/source/MQTTService/bin/Debug/netcoreapp2.2/WyzeCamApi.runtimeconfig.json
+/Users/dahm/source/MQTTService/bin/Debug/netcoreapp2.2/WyzeCamApi.runtimeconfig.dev.json
+/Users/dahm/source/MQTTService/bin/Debug/netcoreapp2.2/WyzeCamApi.dll
+/Users/dahm/source/MQTTService/bin/Debug/netcoreapp2.2/WyzeCamApi.pdb
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.csprojAssemblyReference.cache
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.csproj.CoreCompileInputs.cache
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.RazorAssemblyInfo.cache
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.RazorAssemblyInfo.cs
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.AssemblyInfoInputs.cache
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.AssemblyInfo.cs
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.RazorTargetAssemblyInfo.cache
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.dll
+/Users/dahm/source/MQTTService/obj/Debug/netcoreapp2.2/WyzeCamApi.pdb

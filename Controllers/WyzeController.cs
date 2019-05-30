@@ -30,9 +30,6 @@ namespace WyzeCamApi.Controllers
         [HttpGet("{cameraID}/{command}/{apikey}")]
         public ActionResult<IEnumerable<string>> Get(String cameraID, String command, String apikey)
         {
-
-            Console.WriteLine(" -------- GET API hit -------");
-            Console.WriteLine(" ------ CameraID: " + cameraID + " command: " + command + " ApiKey: " + apikey + " ------");
             string returnString = string.Empty;
 
             //Check api key
@@ -42,30 +39,35 @@ namespace WyzeCamApi.Controllers
                 return new string[] { "API key not valid", "" };
             }
 
-            using (var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result)
-            {
-                // var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result ;
+            var haMan = new HAApiManager();
+            haMan.SetCamMotion(cameraID);
+            Console.WriteLine(System.DateTime.Now.ToString() + " - Called HASS");
+            returnString = "HASS API called - Motion on WyzeCam: " + cameraID;
 
-                var sess = mqttClient.ConnectAsync().Result;
-                var camName = "wyze_" + cameraID.ToString();
+            // using (var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result)
+            // {
+            //     // var mqttClient = MqttClient.CreateAsync("10.0.0.50").Result ;
 
-                string rcvTopic = "wyze/" + camName + "/receive";
-                string sendTopic = "wyze/" + camName + "/command";
+            //     var sess = mqttClient.ConnectAsync().Result;
+            //     var camName = "wyze_" + cameraID.ToString();
 
-                mqttClient.SubscribeAsync(rcvTopic, MqttQualityOfService.ExactlyOnce);
-                var sendData = String.Empty;
+            //     string rcvTopic = "wyze/" + camName + "/receive";
+            //     string sendTopic = "wyze/" + camName + "/command";
 
-                Task.Run(() =>
-                {
-                    var line = command;
-                    var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line));
-                // var line = Regex.Unescape("{'command':" + command + "'}");
-                // var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line.Replace("'","\"").Remove(0,1)));
-                sendData = data.ToString();
-                    mqttClient.PublishAsync(new MqttApplicationMessage(sendTopic, data), MqttQualityOfService.ExactlyOnce).Wait();
-                });
-                returnString = "------- MQTT: SENDTOPIC: " + sendTopic + " --------";
-            }
+            //     mqttClient.SubscribeAsync(rcvTopic, MqttQualityOfService.ExactlyOnce);
+            //     var sendData = String.Empty;
+
+            //     Task.Run(() =>
+            //     {
+            //         var line = command;
+            //         var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line));
+            //     // var line = Regex.Unescape("{'command':" + command + "'}");
+            //     // var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(line.Replace("'","\"").Remove(0,1)));
+            //     sendData = data.ToString();
+            //         mqttClient.PublishAsync(new MqttApplicationMessage(sendTopic, data), MqttQualityOfService.ExactlyOnce).Wait();
+            //     });
+                //returnString = "------- MQTT: SENDTOPIC: " + sendTopic + " --------";
+            //}
         
 
             return new string[] { returnString, "" };

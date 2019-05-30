@@ -12663,11 +12663,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dahm/source/WyzeCamApi/WyzeCamApi.csproj",
+      "projectUniqueName": "/Users/dahm/source/MQTTService/WyzeCamApi.csproj",
       "projectName": "WyzeCamApi",
-      "projectPath": "/Users/dahm/source/WyzeCamApi/WyzeCamApi.csproj",
+      "projectPath": "/Users/dahm/source/MQTTService/WyzeCamApi.csproj",
       "packagesPath": "/Users/dahm/.nuget/packages/",
-      "outputPath": "/Users/dahm/source/WyzeCamApi/obj/",
+      "outputPath": "/Users/dahm/source/MQTTService/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
